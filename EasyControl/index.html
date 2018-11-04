@@ -59,9 +59,7 @@
 	var deployed = 0;
 	setup();
 	// Analog
-	function loop() {
-		alert("Success");
-		
+	function loop() {		
 		if(cpf){
 	
 			lightdata = cpf.get("light sensor");
@@ -77,7 +75,7 @@
 	
 	// RGB
 	function changeColor() {
-        	alert("Success");
+        	alert("Success color change" + cpf);
 		var Rled = document.getElementById("rled").value;
 		var Gled = document.getElementById("gled").value;
 		var Bled = document.getElementById("bled").value;
@@ -118,7 +116,7 @@
 	}
 	
 	function deploy(){
-        alert("Success setup" + deployed);
+        alert("Success deploy" + deployed);
 	document.getElementsByClassName("dl").innerHTML = deployed;
 
         if(!cpf)
