@@ -60,6 +60,7 @@
 	setup();
 	// Analog
 	function loop() {
+		alert("Success");
 		if(cpf){
 	
 			lightdata = cpf.get("light sensor");
@@ -69,13 +70,13 @@
 			document.getElementById("temperaturevalue").innerHTML = celsius;
 			
 		}
-		alert("Success");
 		setTimeout(loop, 1000);
 	}
 	loop();
 	
 	// RGB
 	function changeColor() {
+        	alert("Success");
 		var Rled = document.getElementById("rled").value;
 		var Gled = document.getElementById("gled").value;
 		var Bled = document.getElementById("bled").value;
@@ -96,8 +97,6 @@
 		if(cpf){
 			cpf.setChainableLed("0," + Rled + "," + Gled + "," + Bled + ";");
 		}
-        alert("Success");
-
 	}
 	
 	// Temperature
@@ -110,14 +109,15 @@
 	
 	// cpf setup
 	function setup(){
+	        alert("Success setup");
 		if(cpf)
 			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "digital", 7, "OUTPUT"]'); 
 			//document.getElementById("demo").innerHTML += ret + "<br>";
-            alert("Success setup");
 
 	}
 	
 	function deploy(){
+        alert("Success setup");
         if(!cpf)
             return;
         if(!deployed){
@@ -127,7 +127,6 @@
             cpf.request('["digitalWrite", 7, 0]');
             deployed = 0;
         }
-        alert("Success");
 
 	}
 	
