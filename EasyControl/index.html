@@ -61,6 +61,7 @@
 	// Analog
 	function loop() {
 		alert("Success");
+		
 		if(cpf){
 	
 			lightdata = cpf.get("light sensor");
@@ -118,6 +119,8 @@
 	
 	function deploy(){
         alert("Success setup");
+	document.getElementByClass("dl").innerHTML = deployed;
+
         if(!cpf)
             return;
         if(!deployed){
