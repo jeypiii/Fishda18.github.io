@@ -110,7 +110,7 @@
 	
 	// cpf setup
 	function setup(){
-	        alert("Success setup");
+	        alert("Success setup" + cpf);
 		if(cpf)
 			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "digital", 7, "OUTPUT"]'); 
 			//document.getElementById("demo").innerHTML += ret + "<br>";
@@ -118,7 +118,7 @@
 	}
 	
 	function deploy(){
-        alert("Success setup");
+        alert("Success setup" + deployed);
 	document.getElementsByClassName("dl").innerHTML = deployed;
 
         if(!cpf)
