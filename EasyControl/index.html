@@ -11,7 +11,6 @@
 <div class="header">
   <img src="img/logo1.svg" alt="logo" />
 </div>
-
 <div id="content" class="row">
 	<div class="col-sm-12  col-xs-12">
 		<div id="analog" class="col-sm-6 col-xs-12">
@@ -48,9 +47,12 @@
 			<span id="showcolor"></span>
 		</div>
 	</div>
+    <div class="fishpopclass">
+        <p> Fish Population: </p>
+        <span id="fishpop">0</span>
+    </div>
     <p class="dl"><a Onclick="deploy()" href="javascript:void(0)" class="button">Deploy Fishda</a></p>
     <p class="dl"><a href="https://Fishda18.github.io/EasyControl" class="button">Go to Main Page</a></p>
-
 </div>
 
 <script>
@@ -58,7 +60,14 @@
 	var lightdata;
 	var tempdata;
 	var celsius;
-	var deployed = 0;
+	var deployed;
+	deployed = false;
+    var fish_population;
+    fish_population = 0;
+    var finished_counting;
+    finished_counting = true;
+    var just_finished;
+    just_finished = false;
 	setup();
 	// Analog
 	function loop() {		
@@ -66,10 +75,27 @@
 	
 			lightdata = cpf.get("light sensor");
 			tempdata = cpf.get("temperature sensor");
-			celsius = toCelsius(tempdata);	
+			celsius = toCelsius(tempdata);
 			document.getElementById("lightvalue").innerHTML = lightdata;
 			document.getElementById("temperaturevalue").innerHTML = celsius;
-			
+        }
+        alert("COUNT_AVAILABLE_PIN " + cpf.get("d8"));
+        if (cpf.get("d8")) {
+            just_finished = true;
+            if (finished_counting) {
+                fish_count = 0;
+                finished_counting = false;
+            }
+            if (cpf.get("d9")) {
+                fish_count++;
+                cpf.request('["digitalWrite", 9, 0]');
+            }
+        } else {
+            finished_counting = true;
+            if (just_finished){
+                document.getElementById("fishpop").innerHTML = fish_population
+			}
+        
 		}
 		setTimeout(loop, 1000);
 	}
@@ -112,23 +138,24 @@
 	function setup(){
 	        alert("Success setup" + cpf);
 		if(cpf)
-			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "digital", 7, "OUTPUT"]'); 
+			cpf.setPinMode('["resetPin"],["setPinMode", "analog", 0, "INPUT"],["setPinMode", "analog", 1,"INPUT"],["setPinMode", "digital", 7, "OUTPUT"], ["setPinMode", "digital", 8, "OUTPUT"],["setPinMode", "digital", 9, "OUTPUT"]'); 
 			//document.getElementById("demo").innerHTML += ret + "<br>";
-
+            //pin7 is the trigger for deployment
+            //pin8 is the COUNT_AVAILABLE_PIN
+            //pin9 is the CLOCK_PIN
 	}
 	
 	function deploy(){
         alert("Success deploy" + deployed);
-	document.getElementsByClassName("dl").innerHTML = deployed;
 
         if(!cpf)
             return;
         if(!deployed){
             cpf.request('["digitalWrite", 7, 1]');
-            deployed = 1;
+            deployed = true;
         } else {
             cpf.request('["digitalWrite", 7, 0]');
-            deployed = 0;
+            deployed = false;
         }
 
 	}
